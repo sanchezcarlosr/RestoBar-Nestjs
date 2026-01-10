@@ -12,10 +12,6 @@ export class UserResponseDTO {
 
     @ApiProperty()
     @Expose()
-    googleId: string;
-
-    @ApiProperty()
-    @Expose()
     email: string;
 
     @ApiProperty()
@@ -37,12 +33,6 @@ export class UserResponseDTO {
     @ApiProperty()
     @Expose()
     updatedAt: Date;
-
-    @ApiProperty()
-    @Expose()
-    get isGoogleUser(): boolean {
-        return !!this.googleId;
-    }
 
     constructor(partial: Partial<UserResponseDTO>) {
         Object.assign(this, partial);
