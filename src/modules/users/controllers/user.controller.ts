@@ -1,7 +1,10 @@
-import { Controller, Get } from "@nestjs/common";
+import { Controller, Get, Post, UploadedFile, UseInterceptors } from "@nestjs/common";
 import { UserResponseDTO } from "../dto/response-user.dto";
 import { UserService } from "../services";
 import { ApiStandardResponse } from "src/modules/common";
+import { FileInterceptor } from "@nestjs/platform-express";
+import type { Express } from 'express';
+import { ApiBody, ApiConsumes } from "@nestjs/swagger";
 
 @Controller({ path: 'user', version: '1' })
 export class UserController {
@@ -28,4 +31,24 @@ export class UserController {
         const data = await this.userService.getUser();
         return data;
     }
+
+    @Post('register')
+    @ApiConsumes('multipart/form-data')
+    @ApiBody({
+        schema: {
+            type: 'object',
+            properties: {
+                file: {
+                    type: 'string',
+                    format: 'binary',
+                },
+            },
+            required: ['file'],
+        },
+    })
+    @UseInterceptors(FileInterceptor('file'))
+    async registerUser(@UploadedFile() file: Express.Multer.File) {
+        const url = await this.userService.savePhoto(file);
+    }
+
 }
