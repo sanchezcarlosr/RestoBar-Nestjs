@@ -7,13 +7,17 @@ import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { TransformResponseInterceptor } from './modules/common/interceptors';
 import { AllExceptionFilter } from './modules/common/interceptors/all-exception.filter';
 import { CloudinaryModule } from './shared/cloudinary/cloudinary.module';
+import { EventEmitterModule } from '@nestjs/event-emitter';
+import { EmailModule } from './modules/email/email.module';
 
 
 @Module({
   imports: [
     HttpModule,
     MongooseModule.forRoot(`mongodb://${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_NAME}`),
-    UserModule
+    EventEmitterModule.forRoot(), //Basic Settings
+    UserModule, 
+    EmailModule
   ],
   controllers: [],
   providers: [

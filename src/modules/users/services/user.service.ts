@@ -4,19 +4,25 @@ import { Model } from 'mongoose'
 import { Inject } from "@nestjs/common";
 import { v2 as Cloudinary } from 'cloudinary';
 import * as streamifier from 'streamifier';
+import { EventEmitter2 } from "@nestjs/event-emitter";
 
 export class UserService {
 
     constructor(
         @InjectModel(User.name) private readonly userModel: Model<User>,
-        @Inject('CLOUDINARY') private cloudinary: typeof Cloudinary
+        @Inject('CLOUDINARY') private cloudinary: typeof Cloudinary,
+        private eventEmmiter: EventEmitter2,
     ) {
 
     }
 
     async getUser(): Promise<any> {
-        return this.userModel.find().lean();
+        const data = await this.userModel.findOne({ email: '44877662@fi.unju.edu.ar' }).lean();
+        //Ejemplo de un evento escuchando
+        this.eventEmmiter.emit('user.registered', { name: 'carlos', email: '44877662@fi.unju.edu.ar' });
+        return data;
     }
+    
     /**
      * Ver que hace este codigo
      */
@@ -26,7 +32,7 @@ export class UserService {
                 {
                     folder: 'users',
                 },
-                (error, result:any) => {
+                (error, result: any) => {
                     if (error) return reject(error);
                     resolve(result.secure_url);
                 },

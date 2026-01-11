@@ -1,16 +1,18 @@
 import 'dotenv/config';
 import { z } from 'zod';
 
-import { databaseSchema, cloudinarySchema } from 'src/core/environment'; 
+import { databaseSchema, cloudinarySchema } from 'src/core/environment';
+import { mailSchema } from 'src/core/environment/mail.schema';
 
 const envSchema = z.object({
     ...databaseSchema.shape,
     ...cloudinarySchema.shape,
+    ...mailSchema.shape,
 });
 
 const { success, error, data } = envSchema.safeParse(process.env);
 
-if(!success){
+if (!success) {
     console.error(
         'Environment variable validation failed: ',
         z.treeifyError(error),
@@ -24,5 +26,10 @@ export const {
     DATABASE_NAME,
     CLOUD_NAME,
     CLOUD_API_KEY,
-    CLOUD_API_SECRET
+    CLOUD_API_SECRET,
+    HOST_MAIL,
+    PASSWORD_APP,
+    PORT_MAIL,
+    SECURE,
+    USER_REMITENTE
 } = data
