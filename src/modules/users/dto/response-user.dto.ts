@@ -20,11 +20,11 @@ export class UserResponseDTO {
 
     @ApiProperty()
     @Expose()
-    name: string;
+    nombre: string;
 
     @ApiProperty()
     @Expose()
-    lastName: string;
+    apellido: string;
 
     @ApiProperty()
     @Expose()

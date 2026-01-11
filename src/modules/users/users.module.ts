@@ -2,7 +2,7 @@ import { Module } from "@nestjs/common";
 import { UserController } from "./controllers";
 import { MongooseModule } from "@nestjs/mongoose";
 import { User, UserSchema } from "./schemas";
-import { UserService } from "./services";
+import { PasswordService, UserService } from "./services";
 import { CloudinaryModule } from "src/shared/cloudinary/cloudinary.module";
 
 @Module({
@@ -14,7 +14,7 @@ import { CloudinaryModule } from "src/shared/cloudinary/cloudinary.module";
         CloudinaryModule,
     ],
     controllers: [UserController],
-    providers: [UserService],
+    providers: [UserService, PasswordService],
     exports: [UserService],
 })
 

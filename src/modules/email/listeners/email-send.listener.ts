@@ -9,7 +9,6 @@ export class EmailSendListener {
     }
     @OnEvent('user.registered')
     async handleOrderCreatedEvent(object: any) {
-        // handle and process "OrderCreatedEvent" event
         await this.emailService.sendWelcome(object?.email, object?.name);
     }
 }
