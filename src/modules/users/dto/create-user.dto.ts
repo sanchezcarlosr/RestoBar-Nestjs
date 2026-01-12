@@ -30,6 +30,13 @@ export class CreateUserDTO {
     @ApiProperty({ description: 'User password', example: 'password123' })
     password: string;
 
+    @ApiProperty({
+        type: 'string',
+        format: 'binary',
+        description: 'User profile image',
+    })
+    file: any;
+
     @IsMongoId({ message: 'The rol ID must be a valid MongoDB ObjectId' })
     @ApiProperty({ description: 'Rol ID' })
     rol: string;

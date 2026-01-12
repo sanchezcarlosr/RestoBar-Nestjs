@@ -20,6 +20,9 @@ export class User {
     @Prop({ type: String, required: true })
     password: string;
 
+    @Prop({ type: String, required: false })
+    urlPhoto: string;
+
     @Prop({ type: Types.ObjectId, ref: 'Rol', required: true })
     rol: Types.ObjectId;
 

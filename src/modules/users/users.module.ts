@@ -4,6 +4,7 @@ import { MongooseModule } from "@nestjs/mongoose";
 import { User, UserSchema } from "./schemas";
 import { PasswordService, UserService } from "./services";
 import { CloudinaryModule } from "src/shared/cloudinary/cloudinary.module";
+import { StorageModule } from "../common/storages/storage.module";
 
 @Module({
     imports: [
@@ -11,7 +12,7 @@ import { CloudinaryModule } from "src/shared/cloudinary/cloudinary.module";
             name:User.name,
             schema: UserSchema
         }]),
-        CloudinaryModule,
+        StorageModule
     ],
     controllers: [UserController],
     providers: [UserService, PasswordService],

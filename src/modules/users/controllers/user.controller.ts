@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Put, UploadedFile, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, Delete, Get, HttpStatus, Param, ParseFilePipeBuilder, Patch, Post, Put, UploadedFile, UseInterceptors } from "@nestjs/common";
 import { UserResponseDTO } from "../dto/response-user.dto";
 import { UserService } from "../services";
 import { ApiStandardResponse } from "src/modules/common";
@@ -39,19 +39,32 @@ export class UserController {
         type: UserResponseDTO,
         status: 200
     })
-    async getUserByEmail(@Param('email') email: string): Promise<UserResponseDTO>{
+    async getUserByEmail(@Param('email') email: string): Promise<UserResponseDTO> {
         return await this.userService.findUserByEmail(email);
     }
 
     @Post('register')
+    @ApiConsumes('multipart/form-data')
     @ApiStandardResponse({
         summary: 'Register a new User',
         description: 'Allow register a new user in the system',
         type: UserResponseDTO,
         status: 201,
     })
-    async create(@Body() createUserDTO: CreateUserDTO): Promise<UserResponseDTO> {
-        return await this.userService.registerUser(createUserDTO);
+    @UseInterceptors(FileInterceptor('file'))
+    async create(@Body() createUserDTO: CreateUserDTO, @UploadedFile(
+        new ParseFilePipeBuilder()
+            .addFileTypeValidator({
+                fileType: '\.(jpg|jpeg|png|bmp|webp)$',
+            })
+            .addMaxSizeValidator({
+                maxSize: 1140000,
+            })
+            .build({
+                errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY
+            }),
+    ) file: Express.Multer.File): Promise<UserResponseDTO> {
+        return await this.userService.registerUser(createUserDTO, file);
     }
 
     @Put('/updateProfile/:email')
@@ -115,8 +128,19 @@ export class UserController {
         },
     })
     @UseInterceptors(FileInterceptor('file'))
-    async registerUser(@UploadedFile() file: Express.Multer.File) {
-        const url = await this.userService.savePhoto(file);
+    async registerUser(@UploadedFile(
+        new ParseFilePipeBuilder()
+            .addFileTypeValidator({
+                fileType: '\.(jpg|jpeg|png|bmp|webp)$',
+            })
+            .addMaxSizeValidator({
+                maxSize: 1140000,
+            })
+            .build({
+                errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY
+            }),
+    ) file: Express.Multer.File) {
+
     }
 
 }
