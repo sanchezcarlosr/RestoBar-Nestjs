@@ -28,6 +28,9 @@ export class UserResponseDTO {
 
     @ApiProperty()
     @Expose()
+    urlPhoto: string;
+    @ApiProperty()
+    @Expose()
     createdAt: Date;
 
     @ApiProperty()

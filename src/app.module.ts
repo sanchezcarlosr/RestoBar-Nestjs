@@ -6,9 +6,10 @@ import { UserModule } from './modules/users/users.module';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { TransformResponseInterceptor } from './modules/common/interceptors';
 import { AllExceptionFilter } from './modules/common/interceptors/all-exception.filter';
-import { CloudinaryModule } from './shared/cloudinary/cloudinary.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { EmailModule } from './modules/email/email.module';
+import { ProductModule } from './modules/products/products.module';
+import { StorageModule } from './modules/common/storages/storage.module';
 
 
 @Module({
@@ -16,8 +17,10 @@ import { EmailModule } from './modules/email/email.module';
     HttpModule,
     MongooseModule.forRoot(`mongodb://${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_NAME}`),
     EventEmitterModule.forRoot(), //Basic Settings
-    UserModule, 
-    EmailModule
+    UserModule,
+    ProductModule, 
+    EmailModule,
+    StorageModule
   ],
   controllers: [],
   providers: [

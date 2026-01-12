@@ -30,6 +30,7 @@ export class UserController {
         const data = await this.userService.getUser();
         return data;
     }
+
     @Get(':email')
     @ApiStandardResponse({
         summary: 'Get user by email',
@@ -110,37 +111,6 @@ export class UserController {
     })
     async deleteUser(@Param('email') email: string): Promise<UserResponseDTO | null> {
         return await this.userService.deleteUserByEmail(email);
-    }
-
-
-    @Post('register/photo')
-    @ApiConsumes('multipart/form-data')
-    @ApiBody({
-        schema: {
-            type: 'object',
-            properties: {
-                file: {
-                    type: 'string',
-                    format: 'binary',
-                },
-            },
-            required: ['file'],
-        },
-    })
-    @UseInterceptors(FileInterceptor('file'))
-    async registerUser(@UploadedFile(
-        new ParseFilePipeBuilder()
-            .addFileTypeValidator({
-                fileType: '\.(jpg|jpeg|png|bmp|webp)$',
-            })
-            .addMaxSizeValidator({
-                maxSize: 1140000,
-            })
-            .build({
-                errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY
-            }),
-    ) file: Express.Multer.File) {
-
     }
 
 }

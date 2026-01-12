@@ -20,4 +20,12 @@ export class StorageService {
             streamifier.createReadStream(file.buffer).pipe(uploadStream);
         })
     }
+    
+    async deletePhoto(publicId: string): Promise<void>{
+        console.log("Hola entre a eliminar");
+        
+        const result = await this.cloudinary.uploader.destroy(publicId);
+        console.log("Se elimno? ", result);
+        
+    }
 }

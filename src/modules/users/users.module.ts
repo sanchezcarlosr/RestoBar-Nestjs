@@ -3,7 +3,6 @@ import { UserController } from "./controllers";
 import { MongooseModule } from "@nestjs/mongoose";
 import { User, UserSchema } from "./schemas";
 import { PasswordService, UserService } from "./services";
-import { CloudinaryModule } from "src/shared/cloudinary/cloudinary.module";
 import { StorageModule } from "../common/storages/storage.module";
 
 @Module({
