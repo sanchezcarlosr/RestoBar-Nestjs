@@ -11,6 +11,7 @@ import { EmailModule } from './modules/email/email.module';
 import { ProductModule } from './modules/products/products.module';
 import { StorageModule } from './modules/common/storages/storage.module';
 import { CategoryModule } from './modules/categories/categories.module';
+import { OrderModule } from './modules/orders/orders.module';
 
 
 @Module({
@@ -21,6 +22,7 @@ import { CategoryModule } from './modules/categories/categories.module';
     UserModule,
     ProductModule, 
     CategoryModule,
+    OrderModule,
     EmailModule,
     StorageModule
   ],

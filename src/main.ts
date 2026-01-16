@@ -5,6 +5,7 @@ import { getSwaggerConfig } from './core/config/swagger';
 import { UserResponseDTO } from './modules/users/dto/response-user.dto';
 import { CategoryResponseDto } from './modules/categories/dto';
 import { ProductResponseDto } from './modules/products/dto';
+import { OrderResponseDto } from './modules/orders/dto';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -16,7 +17,8 @@ async function bootstrap() {
     extraModels: [
       UserResponseDTO,
       CategoryResponseDto,
-      ProductResponseDto
+      ProductResponseDto,
+      OrderResponseDto
     ],
   });
   SwaggerModule.setup('/api/docs', app, document, swaggerSetupOptions);
