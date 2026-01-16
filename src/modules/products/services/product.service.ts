@@ -52,17 +52,18 @@ export class ProductService {
         });
     }
 
+    /**
+     * This method obtains the public ID of the image stored in Cloudinary
+     */
     async deleteProductById(id: string): Promise<ProductResponseDto | null> {
         const productDeleted = await this.productModel.findByIdAndDelete(id).lean();
         if (productDeleted?.url_image) {
             let url = productDeleted?.url_image;
             const parts = url.split('/');
-            const versionAndId = parts.slice(parts.indexOf('upload') + 1).join('/');
+            const versionAndId = parts.slice(parts.indexOf('product-image')).join('/');
             const publicId = versionAndId.replace(/\.[^/.]+$/, ""); // quitar extensión
-            console.log(publicId);
             this.eventEmmiter.emit('image.delete', publicId);
         }
-
         return plainToInstance(ProductResponseDto, productDeleted, {
             excludeExtraneousValues: true
         });

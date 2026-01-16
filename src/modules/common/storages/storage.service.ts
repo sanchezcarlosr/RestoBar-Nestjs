@@ -22,10 +22,6 @@ export class StorageService {
     }
     
     async deletePhoto(publicId: string): Promise<void>{
-        console.log("Hola entre a eliminar");
-        
-        const result = await this.cloudinary.uploader.destroy(publicId);
-        console.log("Se elimno? ", result);
-        
+        await this.cloudinary.uploader.destroy(publicId);
     }
 }
