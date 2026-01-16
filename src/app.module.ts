@@ -10,6 +10,7 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
 import { EmailModule } from './modules/email/email.module';
 import { ProductModule } from './modules/products/products.module';
 import { StorageModule } from './modules/common/storages/storage.module';
+import { CategoryModule } from './modules/categories/categories.module';
 
 
 @Module({
@@ -19,6 +20,7 @@ import { StorageModule } from './modules/common/storages/storage.module';
     EventEmitterModule.forRoot(), //Basic Settings
     UserModule,
     ProductModule, 
+    CategoryModule,
     EmailModule,
     StorageModule
   ],
