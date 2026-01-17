@@ -5,6 +5,8 @@ import { CreateCategoryDto, CategoryResponseDto, UpdateCategoryDto } from "../dt
 import { ApiConsumes } from "@nestjs/swagger";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { CategoryService } from "../services";
+import { UploadedImage } from "src/modules/common/decorators";
+import { ImageValidationPipe } from "src/modules/common/pipes";
 
 @Controller({ path: 'category', version: '1' })
 export class CategoryController {
@@ -52,18 +54,7 @@ export class CategoryController {
     @UseInterceptors(FileInterceptor('file'))
     async registerCategory(
         @Body() createCategoryDto: CreateCategoryDto,
-        @UploadedFile(
-            new ParseFilePipeBuilder()
-                .addFileTypeValidator({
-                    fileType: '\.(jpg|jpeg|png|bmp|webp)$',
-                })
-                .addMaxSizeValidator({
-                    maxSize: 1140000,
-                })
-                .build({
-                    errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY
-                }),
-        ) file: Express.Multer.File
+        @UploadedImage() file: Express.Multer.File
     ): Promise<CategoryResponseDto> {
         const data = await this.categoryService.registerCategory(createCategoryDto, file);
         return data;
@@ -81,19 +72,7 @@ export class CategoryController {
     async updateCategory(
         @Body() updateCategoryDto: UpdateCategoryDto,
         @Param('id') id: string,
-        @UploadedFile(
-            new ParseFilePipeBuilder()
-                .addFileTypeValidator({
-                    fileType: '\.(jpg|jpeg|png|bmp|webp)$',
-                })
-                .addMaxSizeValidator({
-                    maxSize: 1140000,
-                })
-                .build({
-                    errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
-                    fileIsRequired: false
-                }),
-        ) file?: Express.Multer.File
+        @UploadedImage() file?: Express.Multer.File
     ): Promise<CategoryResponseDto> {
         const data = await this.categoryService.updateCategory(id, updateCategoryDto, file);
         return data;

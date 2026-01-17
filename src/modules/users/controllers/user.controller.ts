@@ -7,6 +7,7 @@ import type { Express } from 'express';
 import { ApiBody, ApiConsumes } from "@nestjs/swagger";
 import { CreateUserDTO, UpdateUserDto } from "../dto";
 import { ChangePasswordDto } from "../dto/change-password.dto";
+import { UploadedImage } from "src/modules/common/decorators";
 
 @Controller({ path: 'user', version: '1' })
 export class UserController {
@@ -53,20 +54,9 @@ export class UserController {
         status: 201,
     })
     @UseInterceptors(FileInterceptor('file'))
-    async create(@Body() createUserDTO: CreateUserDTO, @UploadedFile(
-        new ParseFilePipeBuilder()
-            .addFileTypeValidator({
-                fileType: '\.(jpg|jpeg|png|bmp|webp)$',
-            })
-            .addMaxSizeValidator({
-                maxSize: 1140000,
-            })
-            .build({
-                errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY
-            }),
-    ) file: Express.Multer.File): Promise<UserResponseDTO> {
+    async create(@Body() createUserDTO: CreateUserDTO, @UploadedImage() file: Express.Multer.File): Promise<UserResponseDTO> {
         return await this.userService.registerUser(createUserDTO, file);
-    }
+    } 
 
     @Put('/updateProfile/:email')
     @ApiStandardResponse({

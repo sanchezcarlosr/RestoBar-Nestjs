@@ -4,6 +4,7 @@ import { CreateProductDto, ProductResponseDto, UpdateProductDto } from "../dto";
 import { ProductService } from "../services/product.service";
 import { ApiConsumes } from "@nestjs/swagger";
 import { FileInterceptor } from "@nestjs/platform-express";
+import { UploadedImage } from "src/modules/common/decorators";
 
 @Controller({ path: 'product', version: '1' })
 export class ProductController {
@@ -52,18 +53,7 @@ export class ProductController {
     @UseInterceptors(FileInterceptor('file'))
     async registerProduct(
         @Body() createProductDto: CreateProductDto,
-        @UploadedFile(
-            new ParseFilePipeBuilder()
-                .addFileTypeValidator({
-                    fileType: '\.(jpg|jpeg|png|bmp|webp)$',
-                })
-                .addMaxSizeValidator({
-                    maxSize: 1140000,
-                })
-                .build({
-                    errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY
-                }),
-        ) file: Express.Multer.File
+        @UploadedImage() file: Express.Multer.File
     ): Promise<ProductResponseDto> {
         const data = await this.productService.registerProduct(createProductDto, file);
         return data;
@@ -78,19 +68,7 @@ export class ProductController {
         status: 200
     })
     @UseInterceptors(FileInterceptor('file'))
-    async updateProduct(@Body() updateProductDto: UpdateProductDto, @Param('id') id: string, @UploadedFile(
-        new ParseFilePipeBuilder()
-            .addFileTypeValidator({
-                fileType: '\.(jpg|jpeg|png|bmp|webp)$',
-            })
-            .addMaxSizeValidator({
-                maxSize: 1140000,
-            })
-            .build({
-                errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
-                fileIsRequired: false
-            }),
-    ) file?: Express.Multer.File): Promise<ProductResponseDto> {
+    async updateProduct(@Body() updateProductDto: UpdateProductDto, @Param('id') id: string, @UploadedImage() file?: Express.Multer.File): Promise<ProductResponseDto> {
         const data = await this.productService.updateProduct(id, updateProductDto, file);
         return data;
     }
