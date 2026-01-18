@@ -6,6 +6,7 @@ import { UserResponseDTO } from './modules/users/dto/response-user.dto';
 import { CategoryResponseDto } from './modules/categories/dto';
 import { ProductResponseDto } from './modules/products/dto';
 import { OrderResponseDto } from './modules/orders/dto';
+import { OrderDetailResponseDto } from './modules/order-details/dto';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -18,7 +19,8 @@ async function bootstrap() {
       UserResponseDTO,
       CategoryResponseDto,
       ProductResponseDto,
-      OrderResponseDto
+      OrderResponseDto,
+      OrderDetailResponseDto,
     ],
   });
   SwaggerModule.setup('/api/docs', app, document, swaggerSetupOptions);
