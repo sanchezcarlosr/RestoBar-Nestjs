@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpStatus, Param, ParseFilePipeBuilder, Post, Put, UploadedFile, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put, UseInterceptors } from "@nestjs/common";
 import { ApiStandardResponse } from "src/modules/common";
 import { CreateProductDto, ProductResponseDto, UpdateProductDto } from "../dto";
 import { ProductService } from "../services/product.service";

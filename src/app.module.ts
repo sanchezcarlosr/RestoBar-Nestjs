@@ -14,6 +14,7 @@ import { CategoryModule } from './modules/categories/categories.module';
 import { OrderModule } from './modules/orders/orders.module';
 import { OrderDetailModule } from './modules/order-details/order-details.module';
 import { SaleModule } from './modules/sales/sales.module';
+import { QualiModule } from './modules/qualification/qualifications.module';
 
 
 @Module({
@@ -27,6 +28,7 @@ import { SaleModule } from './modules/sales/sales.module';
     OrderModule,
     OrderDetailModule,
     SaleModule,
+    QualiModule,
     EmailModule,
     StorageModule
   ],
