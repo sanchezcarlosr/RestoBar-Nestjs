@@ -58,11 +58,7 @@ export class ProductService {
     async deleteProductById(id: string): Promise<ProductResponseDto | null> {
         const productDeleted = await this.productModel.findByIdAndDelete(id).lean();
         if (productDeleted?.url_image) {
-            let url = productDeleted?.url_image;
-            const parts = url.split('/');
-            const versionAndId = parts.slice(parts.indexOf('product-image')).join('/');
-            const publicId = versionAndId.replace(/\.[^/.]+$/, ""); // quitar extensión
-            this.eventEmmiter.emit('image.delete', publicId);
+            this.eventEmmiter.emit('image.delete', productDeleted.url_image, 'product-image');
         }
         return plainToInstance(ProductResponseDto, productDeleted, {
             excludeExtraneousValues: true

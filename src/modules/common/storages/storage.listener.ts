@@ -10,7 +10,7 @@ export class StorageListener {
     }
 
     @OnEvent('image.delete')
-    async handleImageDeletedEvent(publicId: string) {
-        await this.storageService.deletePhoto(publicId);
+    async handleImageDeletedEvent(url_image: string, folder: string) {
+        await this.storageService.deletePhoto(url_image, folder);
     }
 }

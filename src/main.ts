@@ -9,6 +9,7 @@ import { OrderResponseDto } from './modules/orders/dto';
 import { OrderDetailResponseDto } from './modules/order-details/dto';
 import { SaleResponseDato } from './modules/sales/dto';
 import { QualiResponseDto } from './modules/qualification/dto';
+import { ComboResponseDto } from './modules/combos/dto';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -24,6 +25,7 @@ async function bootstrap() {
       OrderResponseDto,
       OrderDetailResponseDto,
       SaleResponseDato,
+      ComboResponseDto,
       QualiResponseDto
     ],
   });

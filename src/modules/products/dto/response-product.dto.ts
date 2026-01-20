@@ -1,8 +1,14 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { Expose } from "class-transformer";
+import { Exclude, Expose, Transform, Type } from "class-transformer";
 
 
+@Exclude()
 export class ProductResponseDto {
+    
+    @Expose()
+    @Transform(({ obj }) => obj._id?.toString())
+    _id: string;
+
     @ApiProperty()
     @Expose()
     productName: string;
@@ -27,7 +33,7 @@ export class ProductResponseDto {
     @Expose()
     status: boolean;
 
-    constructor(partial: Partial<ProductResponseDto>){
+    constructor(partial: Partial<ProductResponseDto>) {
         Object.assign(this, partial);
     }
 }

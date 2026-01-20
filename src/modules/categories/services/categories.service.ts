@@ -57,11 +57,7 @@ export class CategoryService {
     async deleteCategoryById(id: string): Promise<CategoryResponseDto | null> {
         const categoryDeleted = await this.categoryModel.findByIdAndDelete(id).lean();
         if (categoryDeleted?.image) {
-            let url = categoryDeleted.image;
-            const parts = url.split("/");
-            const versionAndId = parts.slice(parts.indexOf("category-image")).join("/");
-            const publicId = versionAndId.replace(/\.[^/.]+$/, ""); // remove extension
-            this.eventEmitter.emit("image.delete", publicId);
+            this.eventEmitter.emit("image.delete", categoryDeleted.image, 'category-image');
         }
         return plainToInstance(CategoryResponseDto, categoryDeleted, {
             excludeExtraneousValues: true,

@@ -20,8 +20,11 @@ export class StorageService {
             streamifier.createReadStream(file.buffer).pipe(uploadStream);
         })
     }
-    
-    async deletePhoto(publicId: string): Promise<void>{
+
+    async deletePhoto(urlImage: string, folder: string): Promise<void> {
+        const parts = urlImage.split('/');
+        const versionAndId = parts.slice(parts.indexOf(folder)).join('/');
+        const publicId = versionAndId.replace(/\.[^/.]+$/, ""); // quitar extensión
         await this.cloudinary.uploader.destroy(publicId);
     }
 }
