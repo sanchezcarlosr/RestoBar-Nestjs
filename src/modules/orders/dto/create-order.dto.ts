@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString, MinLength, IsNumber, Min, IsOptional } from "class-validator";
-
+import { IsString, MinLength, IsNumber, Min, IsOptional, IsArray, IsMongoId } from "class-validator";
+import { Types } from 'mongoose';
 export class CreateOrderDto {
     @IsOptional()
     @IsString({ message: 'Status must be a string value' })
@@ -19,11 +19,23 @@ export class CreateOrderDto {
 
     @IsNumber({}, { message: 'Total must be a number' })
     @Min(0, { message: 'Total must be greater than or equal to 0' })
-    @ApiProperty({ description: 'Total amount of the order', example: 49.99 })
+    @ApiProperty({ description: 'Total amount of the order', required: false})
     total: number;
 
     @IsString()
     @MinLength(3, { message: 'Payment Method must be at least 3 characters long' })
     @ApiProperty({ description: 'Payment method used for the order', example: 'Credit Card' })
     paymentMethod: string;
+
+    @ApiProperty({ example: '60f7c2f9b4d1a72f9c8e4a12', description: 'User ID reference' })
+    @IsMongoId()
+    userId: Types.ObjectId;
+
+    @IsArray()
+    @ApiProperty({
+        description: 'List of product IDs included in the offer',
+        example: ['696d2f8ebeef667011ee9476', '696d2f8ebeef667011ee9476'],
+        isArray: true,
+    })
+    orderDetails: Types.ObjectId[];
 }

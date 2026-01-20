@@ -15,6 +15,8 @@ export class OrderDetailService {
 
   async getOrderDetails(): Promise<OrderDetailResponseDto[]> {
     const data = await this.orderDetailModel.find().populate('product').lean();
+    console.log(data);
+    
     return plainToInstance(OrderDetailResponseDto, data, {
       excludeExtraneousValues: true,
     });
@@ -38,7 +40,7 @@ export class OrderDetailService {
   async registerOrderDetail(
     createOrderDetailDto: CreateOrderDetailDto,
   ): Promise<OrderDetailResponseDto> {
-    const product = await this.productService.getProductById(createOrderDetailDto.productId);
+    const product = await this.productService.getProductById(createOrderDetailDto.product.toString());
     createOrderDetailDto.subtotal = product.price * createOrderDetailDto.quantity;
     const orderDetailRegistered = await new this.orderDetailModel({
       ...createOrderDetailDto,

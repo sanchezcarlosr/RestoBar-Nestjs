@@ -11,7 +11,7 @@ export class OrderDetail {
   quantity: number;
 
   @Prop({ type: Types.ObjectId, ref: Product.name, required: true })
-  productId: Product;
+  product: Types.ObjectId;
 
   @Prop({ type: Number, required: true, min: 0 })
   subtotal: number;
